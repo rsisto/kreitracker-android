@@ -1,14 +1,13 @@
 package kreitech.io.kreitrackerandroid;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -21,7 +20,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int mInterval = 5000; // 5 seconds by default, can be changed later
 
 
-
     private Handler mHandler;
 
     public static GoogleMap mMap;
@@ -29,6 +27,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -37,6 +36,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mHandler = new Handler();
         startRepeatingTask();
+        */
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
 
@@ -70,7 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.clear();
 
                     if (tracker != null) {
-                        LatLng marcador = new LatLng(tracker.getLat(),tracker.getLon());
+                        LatLng marcador = new LatLng(tracker.getLat(), tracker.getLon());
                         String name = tracker.getUpdatedAt();
                         mMap.addMarker(new MarkerOptions().position(marcador).title("tracker").snippet(name));
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(marcador));
@@ -81,7 +83,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         });
-
 
 
     }
@@ -112,8 +113,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng marcador = new LatLng(-34.905706,-56.1756192);
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(16) );
+        LatLng marcador = new LatLng(-34.905706, -56.1756192);
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
 
     }
 }
