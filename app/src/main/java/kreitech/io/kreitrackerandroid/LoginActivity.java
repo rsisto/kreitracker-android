@@ -5,6 +5,8 @@ import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -247,7 +249,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(username, password);
+            mAuthTask = new UserLoginTask(username, password,this);
             mAuthTask.execute((Void) null);
         }
     }
@@ -264,7 +266,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        //return password.length() > 4;
+        return true;
     }
 
     /**
@@ -354,8 +357,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private final String mUsername;
         private final String mPassword;
         private Facade facade;
+        private Context context;
 
-        UserLoginTask(String username, String password) {
+
+        UserLoginTask(String username, String password, Context ctx) {
+            context = ctx;
             mUsername = username;
             mPassword = password;
             facade = Facade.getInstance();
@@ -365,7 +371,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Intent doInBackground(Void... params) {
             final Intent intent = new Intent();
             User user = facade.login(mUsername, mPassword);
-            intent.putExtra(RegisterActivity.REGISTERED_USER, user);
+            if(user==null){
+                //Go back to login
+                intent.putExtra(KEY_ERROR_MESSAGE,getString(R.string.error_invalid_credentials));
+            }else{
+                intent.putExtra(RegisterActivity.REGISTERED_USER, user);
+            }
+
             return intent;
         }
 
@@ -376,8 +388,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (intent.hasExtra(KEY_ERROR_MESSAGE)) {
                 Toast.makeText(getBaseContext(), intent.getStringExtra(KEY_ERROR_MESSAGE), Toast.LENGTH_SHORT).show();
             } else {
-                setResult(RESULT_OK, intent);
-                finish();
+                Intent intent2 = new Intent(context, MapsActivity.class);
+                context.startActivity(intent2);
+                ((Activity)context).finish();
+                //setResult(RESULT_OK, intent);
+                //finish();
             }
         }
 
@@ -389,5 +404,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
+
+
 }
 

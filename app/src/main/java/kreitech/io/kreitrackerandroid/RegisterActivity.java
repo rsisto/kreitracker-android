@@ -68,7 +68,13 @@ public class RegisterActivity extends AppCompatActivity {
                 // TODO: Signup will be here
                 User user = facade.registerUser(username, name, email, password);
                 Intent result = new Intent();
-                result.putExtra(REGISTERED_USER, user);
+                if(user ==null){
+                    result.putExtra(KEY_ERROR_MESSAGE,getString(R.string.error_processing_request));
+                }else{
+                    result.putExtra(REGISTERED_USER, user);
+                }
+
+
                 return result;
             }
 

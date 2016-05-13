@@ -35,8 +35,10 @@ public class KreitrackerApi  {
         new KreitrackerAsyncTask(restUrl, null,KreitrackerAsyncTask.METHOD_GET,new RestTaskCallback (){
             @Override
             public void onTaskComplete(String response){
-                TrackerPosition tracker = Utils.parseResponseAsTrackerPosition(response);
-                callback.onDataReceived(tracker);
+                if(response !=null) {
+                    TrackerPosition tracker = Utils.parseResponseAsTrackerPosition(response);
+                    callback.onDataReceived(tracker);
+                }
             }
         }).execute();
     }

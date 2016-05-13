@@ -19,6 +19,6 @@ public interface ApiService {
     @POST("users")
     public Call<User> registerUser(@Body User user);
 
-    @POST("/authentication")
+    @POST("authentication")
     public Call<User> login(@Body User user);
 }
