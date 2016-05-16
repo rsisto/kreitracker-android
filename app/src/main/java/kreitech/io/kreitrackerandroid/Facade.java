@@ -3,6 +3,9 @@ package kreitech.io.kreitrackerandroid;
 import java.io.IOException;
 
 import kreitech.io.kreitrackerandroid.models.User;
+import kreitech.io.kreitrackerandroid.responses.LoginResponse;
+import kreitech.io.kreitrackerandroid.responses.PhoneImeiRequest;
+import kreitech.io.kreitrackerandroid.responses.PhoneImeiResponse;
 import kreitech.io.services.ApiService;
 import kreitech.io.services.KRestClient;
 
@@ -53,13 +56,28 @@ public class Facade {
         }
     }
 
-    public User login(String username, String password) {
+    public LoginResponse login(String username, String password) {
         User user = new User();
+        LoginResponse response;
         try {
             user.setUserName(username);
             user.setPassword(password);
-            user = api.login(user).execute().body();
-            return user;
+            response = api.login(user).execute().body();
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public PhoneImeiResponse sendPhoneImei(String phone, Integer imei) {
+        PhoneImeiRequest request = new PhoneImeiRequest();
+        PhoneImeiResponse response;
+        try {
+            request.setPhone(phone);
+            request.setImei(imei);
+            response = api.sendPhoneImei(request).execute().body();
+            return response;
         } catch (IOException e) {
             e.printStackTrace();
             return null;

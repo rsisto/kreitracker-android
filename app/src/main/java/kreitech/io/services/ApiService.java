@@ -1,12 +1,14 @@
 package kreitech.io.services;
 
 import kreitech.io.kreitrackerandroid.models.User;
+import kreitech.io.kreitrackerandroid.responses.LoginResponse;
+import kreitech.io.kreitrackerandroid.responses.PhoneImeiRequest;
+import kreitech.io.kreitrackerandroid.responses.PhoneImeiResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 /**
  * Created by sebastian on 24/03/16.
@@ -20,5 +22,8 @@ public interface ApiService {
     public Call<User> registerUser(@Body User user);
 
     @POST("authentication")
-    public Call<User> login(@Body User user);
+    public Call<LoginResponse> login(@Body User user);
+
+    @POST("users/alarms/trackers")
+    public Call<PhoneImeiResponse> sendPhoneImei(@Body PhoneImeiRequest request);
 }

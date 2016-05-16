@@ -10,13 +10,16 @@
     <string name="prompt_last_name">Last Name</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_repeat_password">Repeat password</string>
+    <string name="prompt_phone_number">Phone number</string>
+    <string name="prompt_imei">Imei</string>
+    <string name="action_continue">Continue</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_invalid_credentials">Wrong username / password combination</string>
     <string name="error_processing_request">There was an error processing the request, please try again</string>
-
+    <string name="error_phone_imei">There was an error sending phone number and imei</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email

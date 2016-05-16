@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kreitech.io.kreitrackerandroid.models.User;
+import kreitech.io.kreitrackerandroid.responses.LoginResponse;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -85,6 +87,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
 
     private final int REQ_SIGNUP = 1;
+    private final int REQ_PHONE_IMEI = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,9 +143,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode == REQ_SIGNUP && resultCode == RESULT_OK) {
-            finish();
-        } else {
             super.onActivityResult(requestCode, resultCode, data);
+            User user = (User)data.getExtras().get(RegisterActivity.REGISTERED_USER);
+            mAuthTask = new UserLoginTask(user.getUserName(), user.getPassword(),this);
+            mAuthTask.execute("askPhoneAndImei");
+        } else if (requestCode == REQ_PHONE_IMEI && resultCode == RESULT_OK) {
+            super.onActivityResult(requestCode, resultCode, data);
+        } else {
+            finish();
         }
     }
 
@@ -250,7 +258,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(username, password,this);
-            mAuthTask.execute((Void) null);
+            mAuthTask.execute((String) null);
         }
     }
 
@@ -352,7 +360,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Intent> {
+    public class UserLoginTask extends AsyncTask<String, Void, Intent> {
 
         private final String mUsername;
         private final String mPassword;
@@ -368,14 +376,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected Intent doInBackground(Void... params) {
+        protected Intent doInBackground(String... params) {
             final Intent intent = new Intent();
-            User user = facade.login(mUsername, mPassword);
-            if(user==null){
+            LoginResponse response = facade.login(mUsername, mPassword);
+            if (response == null) {
                 //Go back to login
                 intent.putExtra(KEY_ERROR_MESSAGE,getString(R.string.error_invalid_credentials));
-            }else{
-                intent.putExtra(RegisterActivity.REGISTERED_USER, user);
+            } else if (params[0].equals("askPhoneAndImei")) {
+                intent.putExtra("askPhoneAndImei", true);
+            } else {
+                intent.putExtra(RegisterActivity.REGISTERED_USER, response);
             }
 
             return intent;
@@ -387,6 +397,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
             if (intent.hasExtra(KEY_ERROR_MESSAGE)) {
                 Toast.makeText(getBaseContext(), intent.getStringExtra(KEY_ERROR_MESSAGE), Toast.LENGTH_SHORT).show();
+            } else if (intent.hasExtra("askPhoneAndImei")) {
+                // Log.d("KREITRACKER", "Need to send phone and imei");
+                // TODO: Need to send phone and imei
+                Intent phoneImei = new Intent(getBaseContext(), PhoneImeiActivity.class);
+                startActivityForResult(phoneImei, REQ_PHONE_IMEI);
             } else {
                 Intent intent2 = new Intent(context, MapsActivity.class);
                 context.startActivity(intent2);
