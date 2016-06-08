@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
                 User user = facade.registerUser(username, name, email, password);
                 user.setPassword(password);
                 Intent result = new Intent();
-                if(use r ==null){
+                if(user ==null){
                     result.putExtra(KEY_ERROR_MESSAGE,getString(R.string.error_processing_request));
                 }else{
                     result.putExtra(REGISTERED_USER, user);
