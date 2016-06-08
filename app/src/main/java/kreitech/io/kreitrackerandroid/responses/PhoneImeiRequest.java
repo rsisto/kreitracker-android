@@ -13,7 +13,7 @@ public class PhoneImeiRequest implements Serializable {
     String phone;
 
     @SerializedName("imei")
-    Integer imei;
+    String imei;
 
     public String getPhone() {
         return phone;
@@ -23,11 +23,11 @@ public class PhoneImeiRequest implements Serializable {
         this.phone = phone;
     }
 
-    public int getImei() {
+    public String getImei() {
         return imei;
     }
 
-    public void setImei(int imei) {
+    public void setImei(String imei) {
         this.imei = imei;
     }
 }

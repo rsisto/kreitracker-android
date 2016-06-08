@@ -1,5 +1,6 @@
 package kreitech.io.services;
 
+import kreitech.io.kreitrackerandroid.models.AuthToken;
 import kreitech.io.kreitrackerandroid.models.User;
 import kreitech.io.kreitrackerandroid.responses.LoginResponse;
 import kreitech.io.kreitrackerandroid.responses.PhoneImeiRequest;
@@ -26,4 +27,6 @@ public interface ApiService {
 
     @POST("users/alarms/trackers")
     public Call<PhoneImeiResponse> sendPhoneImei(@Body PhoneImeiRequest request);
+
+
 }

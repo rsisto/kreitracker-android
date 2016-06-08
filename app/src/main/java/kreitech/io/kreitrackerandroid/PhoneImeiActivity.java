@@ -21,7 +21,7 @@ public class PhoneImeiActivity extends AppCompatActivity {
     public String REGISTERED_PHONE_IMEI = "REGISTERED_PHONE_IMEI";
 
     public PhoneImeiActivity() {
-        facade = Facade.getInstance();
+        facade = Facade.getInstance(this);
     }
 
     @Override
@@ -36,17 +36,17 @@ public class PhoneImeiActivity extends AppCompatActivity {
     public void sendPhoneImei(View button) {
         Object params[] = {
                 phoneField.getText().toString(),
-                Integer.parseInt(imeiField.getText().toString())
+                imeiField.getText().toString()
         };
 
         new AsyncTask<Object, Void, Intent>() {
 
             @Override
             protected Intent doInBackground(Object... params) {
-                PhoneImeiResponse response = facade.sendPhoneImei((String)params[0], (int)params[1]);
+                PhoneImeiResponse response = facade.sendPhoneImei((String)params[0], (String)params[1]);
                 Intent result = new Intent();
                 if (response == null) {
-                    result.putExtra(ERROR_PHONE_IMEI, R.string.error_phone_imei);
+                    result.putExtra(ERROR_PHONE_IMEI, getText(R.string.error_phone_imei));
                 }else{
                     result.putExtra(REGISTERED_PHONE_IMEI, response);
                 }

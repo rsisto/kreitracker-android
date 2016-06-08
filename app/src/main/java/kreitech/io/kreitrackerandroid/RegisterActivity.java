@@ -57,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        this.facade = Facade.getInstance();
+        this.facade = Facade.getInstance(this);
     }
 
     private void performSignUp(final String username, final String name, final String email, final String password) {
@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
                 User user = facade.registerUser(username, name, email, password);
                 user.setPassword(password);
                 Intent result = new Intent();
-                if(user ==null){
+                if(use r ==null){
                     result.putExtra(KEY_ERROR_MESSAGE,getString(R.string.error_processing_request));
                 }else{
                     result.putExtra(REGISTERED_USER, user);

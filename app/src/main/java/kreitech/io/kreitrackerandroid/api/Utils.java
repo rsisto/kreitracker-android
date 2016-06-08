@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public class Utils {
 
     //TODO: this should be parameterized
-    public static final String BASE_URL = "http://192.168.0.105:8080/api/";
+    public static final String BASE_URL = "http://192.168.0.102:8080/api/";
     public static final String TRACKER_ID = "56e35a39600a830c51000001";
     private static final String GET_TRACKER_POSITION = BASE_URL + "trackerpositions/%s";
     private static final String GET_TRACKER = BASE_URL + "trackers/%s";

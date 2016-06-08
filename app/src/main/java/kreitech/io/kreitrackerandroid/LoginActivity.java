@@ -372,13 +372,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             context = ctx;
             mUsername = username;
             mPassword = password;
-            facade = Facade.getInstance();
+            facade = Facade.getInstance(context);
         }
 
         @Override
         protected Intent doInBackground(String... params) {
             final Intent intent = new Intent();
-            LoginResponse response = facade.login(mUsername, mPassword);
+            LoginResponse response = facade.login(mUsername, mPassword, context);
             if (response == null) {
                 //Go back to login
                 intent.putExtra(KEY_ERROR_MESSAGE,getString(R.string.error_invalid_credentials));
