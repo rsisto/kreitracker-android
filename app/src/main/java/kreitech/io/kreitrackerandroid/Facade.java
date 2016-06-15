@@ -5,11 +5,13 @@ import android.content.SharedPreferences;
 
 import java.io.IOException;
 
+import kreitech.io.kreitrackerandroid.api.KreitrackerAsyncTask;
+import kreitech.io.kreitrackerandroid.api.RestTaskCallback;
+import kreitech.io.kreitrackerandroid.api.TrackerPosition;
+import kreitech.io.kreitrackerandroid.api.Utils;
 import kreitech.io.kreitrackerandroid.models.AuthToken;
 import kreitech.io.kreitrackerandroid.models.User;
-import kreitech.io.kreitrackerandroid.responses.LoginResponse;
-import kreitech.io.kreitrackerandroid.responses.PhoneImeiRequest;
-import kreitech.io.kreitrackerandroid.responses.PhoneImeiResponse;
+import kreitech.io.kreitrackerandroid.responses.*;
 import kreitech.io.services.ApiService;
 import kreitech.io.services.KRestClient;
 
@@ -109,4 +111,24 @@ public class Facade {
             return null;
         }
     }
+
+
+
+
+    public TrackerPositionResponse getTrackerPosition(String id) {
+
+        TrackerPositionResponse response;
+        try {
+
+            response = api.getTrackerPosition(id).execute().body();
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+
 }

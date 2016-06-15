@@ -1,9 +1,13 @@
 package kreitech.io.kreitrackerandroid;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,18 +20,27 @@ import kreitech.io.kreitrackerandroid.api.KreitrackerApi;
 import kreitech.io.kreitrackerandroid.api.Tracker;
 import kreitech.io.kreitrackerandroid.api.TrackerPosition;
 import kreitech.io.kreitrackerandroid.api.Utils;
+import kreitech.io.kreitrackerandroid.responses.LoginResponse;
+import kreitech.io.kreitrackerandroid.responses.TrackerPositionResponse;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    private int mInterval = 5000; // 5 seconds by default, can be changed later
+    private int mInterval = 50000; // 5 seconds by default, can be changed later
 
 
     private Handler mHandler;
 
     public static GoogleMap mMap;
 
+    private Facade facade;
+
+    private MapAsyncTask mMapTask = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        facade = Facade.getInstance(this);
 
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -37,6 +50,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mHandler = new Handler();
         startRepeatingTask();
+
+
 
 
     }
@@ -65,27 +80,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Update map location
      */
     private void updateStatus() {
-        KreitrackerApi.getTrackerPosition(Utils.TRACKER_ID, new KreitrackerApi.ResponseCallback<TrackerPosition>() {
-            @Override
-            public void onDataReceived(TrackerPosition tracker) {
-                if (mMap != null) {
-                    mMap.clear();
-
-                    if (tracker != null) {
-                        LatLng marcador = new LatLng(tracker.getLat(), tracker.getLon());
-                        String name = tracker.getUpdatedAt();
-                        mMap.addMarker(new MarkerOptions().position(marcador).title("tracker").snippet(name));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(marcador));
-                    }
-
-                }
-            }
 
 
-        });
+        mMapTask = new MapAsyncTask(this);
+        mMapTask.execute();
 
 
-    }
+
+
+
+        }
+
+
+
 
     /**
      * Star recurring task
@@ -117,4 +124,81 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
 
     }
+
+
+
+
+
+
+    public class MapAsyncTask extends AsyncTask<String, Void, Intent> {
+
+        private Facade facade;
+        private Context context;
+
+
+        MapAsyncTask( Context ctx) {
+            context = ctx;
+            facade = Facade.getInstance(context);
+        }
+
+        @Override
+        protected Intent doInBackground(String... params) {
+            final Intent intent = new Intent();
+
+            //esto async
+            TrackerPositionResponse tracker = facade.getTrackerPosition("1234");
+
+            intent.putExtra("TP", tracker);
+
+            return intent;
+        }
+
+
+
+
+
+
+        @Override
+        protected void onPostExecute(final Intent intent) {
+            //esto al principal
+            if (mMap != null) {
+                mMap.clear();
+
+                TrackerPositionResponse tracker = (TrackerPositionResponse)intent.getExtras().get("TP");
+
+                if (tracker != null) {
+                    LatLng marcador = new LatLng(Double.valueOf(tracker.getLat()), Double.valueOf(tracker.getLon()));
+                    mMap.addMarker(new MarkerOptions().position(marcador).title("tracker").snippet("juancarlos"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(marcador));
+                }
+            }
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
