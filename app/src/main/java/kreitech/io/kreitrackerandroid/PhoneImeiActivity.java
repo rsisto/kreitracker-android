@@ -21,12 +21,15 @@ public class PhoneImeiActivity extends AppCompatActivity {
     public String REGISTERED_PHONE_IMEI = "REGISTERED_PHONE_IMEI";
 
     public PhoneImeiActivity() {
-        facade = Facade.getInstance(this);
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        facade = Facade.getInstance(this);
+
         setContentView(R.layout.activity_phone_imei);
         phoneField = (EditText)findViewById(R.id.prompt_phone);
         imeiField = (EditText)findViewById(R.id.prompt_imei);

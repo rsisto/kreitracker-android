@@ -382,7 +382,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (response == null) {
                 //Go back to login
                 intent.putExtra(KEY_ERROR_MESSAGE,getString(R.string.error_invalid_credentials));
-            } else if (params[0].equals("askPhoneAndImei")) {
+            } else if (params != null && params.length > 0 && params[0] != null && params[0].equals("askPhoneAndImei")) {
                 intent.putExtra("askPhoneAndImei", true);
             } else {
                 intent.putExtra(RegisterActivity.REGISTERED_USER, response);
