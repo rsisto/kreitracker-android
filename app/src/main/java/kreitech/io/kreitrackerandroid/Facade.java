@@ -129,6 +129,18 @@ public class Facade {
     }
 
 
+    public AlarmResponse alarm() {
+        AlarmRequest request = new AlarmRequest();
+        AlarmResponse response;
+        try {
+
+            response = api.alarm(request).execute().body();
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
 }
