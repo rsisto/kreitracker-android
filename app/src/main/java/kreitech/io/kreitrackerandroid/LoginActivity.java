@@ -399,7 +399,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Toast.makeText(getBaseContext(), intent.getStringExtra(KEY_ERROR_MESSAGE), Toast.LENGTH_SHORT).show();
             } else if (intent.hasExtra("askPhoneAndImei")) {
                 // Log.d("KREITRACKER", "Need to send phone and imei");
-                // TODO: Need to send phone and imei
+
                 Intent phoneImei = new Intent(getBaseContext(), PhoneImeiActivity.class);
                 startActivityForResult(phoneImei, REQ_PHONE_IMEI);
             } else {

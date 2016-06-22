@@ -10,6 +10,7 @@ import kreitech.io.kreitrackerandroid.api.RestTaskCallback;
 import kreitech.io.kreitrackerandroid.api.TrackerPosition;
 import kreitech.io.kreitrackerandroid.api.Utils;
 import kreitech.io.kreitrackerandroid.models.AuthToken;
+import kreitech.io.kreitrackerandroid.models.LoginInformation;
 import kreitech.io.kreitrackerandroid.models.User;
 import kreitech.io.kreitrackerandroid.models.UserDevice;
 import kreitech.io.kreitrackerandroid.responses.*;
@@ -79,15 +80,16 @@ public class Facade {
     }
 
     public LoginResponse login(String username, String password, Context ctx) {
-        User user = new User();
+
         LoginResponse response;
         try {
-            user.setUserName(username);
-            user.setPassword(password);
-            UserDevice device = new UserDevice();
-            device.setDeviceId("pepe"); //TODO: set the device token
-            device.setDeviceType("android");
-            response = api.login(user,device).execute().body();
+            LoginInformation l = new LoginInformation();
+            l.setUserName(username);
+            l.setPassword(password);
+            l.setDeviceId("pepe"); //TODO: set the device token
+            l.setDeviceType("android");
+
+            response = api.login(l).execute().body();
             String token = response.getToken();
             //Store the token in Sharedpreferences.
             SharedPreferences sp = ctx.getSharedPreferences(FACADE_PREF,0);

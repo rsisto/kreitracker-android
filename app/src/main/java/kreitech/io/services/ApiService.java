@@ -1,7 +1,10 @@
 package kreitech.io.services;
 
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+
 import kreitech.io.kreitrackerandroid.api.TrackerPosition;
 import kreitech.io.kreitrackerandroid.models.AuthToken;
+import kreitech.io.kreitrackerandroid.models.LoginInformation;
 import kreitech.io.kreitrackerandroid.models.User;
 import kreitech.io.kreitrackerandroid.models.UserDevice;
 import kreitech.io.kreitrackerandroid.responses.*;
@@ -23,7 +26,7 @@ public interface ApiService {
     public Call<User> registerUser(@Body User user);
 
     @POST("authentication")
-    public Call<LoginResponse> login(@Body User user, @Body UserDevice device);
+    public Call<LoginResponse> login(@Body LoginInformation login);
 
     @POST("users/alarms/trackers")
     public Call<PhoneImeiResponse> sendPhoneImei(@Body PhoneImeiRequest request);
