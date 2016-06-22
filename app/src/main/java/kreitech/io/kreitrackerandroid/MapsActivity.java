@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,10 +22,12 @@ import kreitech.io.kreitrackerandroid.api.Tracker;
 import kreitech.io.kreitrackerandroid.api.TrackerPosition;
 import kreitech.io.kreitrackerandroid.api.Utils;
 import kreitech.io.kreitrackerandroid.responses.LoginResponse;
+import kreitech.io.kreitrackerandroid.responses.PhoneImeiResponse;
+import kreitech.io.kreitrackerandroid.responses.AlarmResponse;
 import kreitech.io.kreitrackerandroid.responses.TrackerPositionResponse;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    private int mInterval = 50000; // 5 seconds by default, can be changed later
+    private int mInterval = 5000; // 5 seconds by default, can be changed later
 
 
     private Handler mHandler;
@@ -190,7 +193,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+    public void alarm(View button) {
 
+        new AsyncTask<Object, Void, Intent>() {
+
+            @Override
+            protected Intent doInBackground(Object... params) {
+                AlarmResponse response = facade.alarm();
+                Intent result = new Intent();
+
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(Intent intent) {
+                    //finish();
+
+            }
+        }.execute();
+    }
 
 
 
