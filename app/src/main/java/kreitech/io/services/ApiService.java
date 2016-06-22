@@ -3,6 +3,7 @@ package kreitech.io.services;
 import kreitech.io.kreitrackerandroid.api.TrackerPosition;
 import kreitech.io.kreitrackerandroid.models.AuthToken;
 import kreitech.io.kreitrackerandroid.models.User;
+import kreitech.io.kreitrackerandroid.models.UserDevice;
 import kreitech.io.kreitrackerandroid.responses.*;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -23,7 +24,7 @@ public interface ApiService {
     public Call<User> registerUser(@Body User user);
 
     @POST("authentication")
-    public Call<LoginResponse> login(@Body User user);
+    public Call<LoginResponse> login(@Body User user, @Body UserDevice device);
 
     @POST("users/alarms/trackers")
     public Call<PhoneImeiResponse> sendPhoneImei(@Body PhoneImeiRequest request);
