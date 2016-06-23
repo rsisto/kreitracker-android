@@ -3,11 +3,13 @@ package kreitech.io.kreitrackerandroid;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -174,6 +176,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.addMarker(new MarkerOptions().position(marcador).title("tracker").snippet("juancarlos"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(marcador));
                 }
+                //setContentView(R.layout.main);
+
+                // If you're in an activity:
+
+                if (tracker.getTriggered()){
+                Button mButton=(Button)findViewById(R.id.alarm_button);
+                mButton.setTextColor(Color.parseColor("#FF0000"));//ROJO
+                }
+
+
+
             }
 
         }
@@ -202,12 +215,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 AlarmResponse response = facade.alarm();
                 Intent result = new Intent();
 
+                result.putExtra("AL", response);
+
                 return result;
             }
 
             @Override
             protected void onPostExecute(Intent intent) {
-                    //finish();
+                AlarmResponse alarm = (AlarmResponse)intent.getExtras().get("AL");
+                if (alarm.getkOn()){
+                    Button mButton=(Button)findViewById(R.id.alarm_button);
+                    mButton.setTextColor(Color.parseColor("#00FF00"));//VERDE
+                }
+                if (!alarm.getkOn()){
+                    Button mButton=(Button)findViewById(R.id.alarm_button);
+                    mButton.setTextColor(Color.parseColor("#000000"));//VERDE
+                }
+
+
+
 
             }
         }.execute();

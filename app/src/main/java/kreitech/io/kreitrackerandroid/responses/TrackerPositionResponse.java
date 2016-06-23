@@ -18,6 +18,9 @@ public class TrackerPositionResponse implements Serializable {
     @SerializedName("lon")
     private String lon;
 
+    @SerializedName("triggered")
+    private Boolean triggered;
+
     public String getLat() {
         return lat;
     }
@@ -32,5 +35,13 @@ public class TrackerPositionResponse implements Serializable {
 
     public void setLon(String lon) {
         this.lon = lon;
+    }
+
+    public Boolean getTriggered() {
+        return triggered;
+    }
+
+    public void setTriggered(Boolean triggered) {
+        this.triggered = triggered;
     }
 }

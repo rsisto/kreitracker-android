@@ -9,5 +9,14 @@ import java.io.Serializable;
  */
 public class AlarmResponse implements Serializable {
 
+    @SerializedName("kOn")
+    private Boolean kOn;
 
+    public Boolean getkOn() {
+        return kOn;
+    }
+
+    public void setkOn(Boolean kOn) {
+        this.kOn = kOn;
+    }
 }
