@@ -201,6 +201,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+    public void logout(View button) {
+
+
+        facade.logout(this);
+
+        Intent mainIntent = new Intent().setClass(
+                MapsActivity.this, LoginActivity.class);
+        startActivity(mainIntent);
+
+        // Close the activity so the user won't able to go back this
+        // activity pressing Back button
+        finish();
+
+
+    }
 
 
 

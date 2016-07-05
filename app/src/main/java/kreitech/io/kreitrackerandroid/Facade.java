@@ -28,9 +28,27 @@ public class Facade {
     private ApiService api;
     private boolean authenticated = false;
 
+
+
     private Facade() {
         this.client = new KRestClient();
         this.api = client.getApiService();
+    }
+
+
+    public void logout(Context ctx){
+
+
+        authenticated = false;
+        SharedPreferences sp = ctx.getSharedPreferences(FACADE_PREF,0);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString("token", null);
+        edit.commit();
+    }
+
+    public Boolean AutoLogin(){
+        return authenticated;
+
     }
 
     public static Facade getInstance(Context ctx) {

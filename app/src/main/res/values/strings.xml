@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">KreitrackerAndroid</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_splash">Map</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->

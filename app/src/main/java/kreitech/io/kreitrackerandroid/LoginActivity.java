@@ -57,6 +57,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public final static String PARAM_USER_PASS = "USER_PASS";
     public final static String AUTHTOKEN_TYPE_FULL_ACCESS = "Full access";
 
+
+    private Facade facade;
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -92,10 +94,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*
+
         mAccountAuthenticatorResponse = getIntent().getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
         if (mAccountAuthenticatorResponse != null) {
             mAccountAuthenticatorResponse.onRequestContinued();
         }
+
+        */
+        facade = Facade.getInstance(this);
+        if (facade.AutoLogin()){
+            // Start the next activity
+            Intent mainIntent = new Intent().setClass(
+                    LoginActivity.this, MapsActivity.class);
+            startActivity(mainIntent);
+
+            // Close the activity so the user won't able to go back this
+            // activity pressing Back button
+            finish();
+        }
+
+
+
+
         setContentView(R.layout.activity_login);
         // Set up the login form.
         loginField = (AutoCompleteTextView) findViewById(R.id.login_field);
